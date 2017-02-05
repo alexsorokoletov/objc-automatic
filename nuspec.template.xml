@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">    
+  <id>@PackageId@</id>
+  <version>@Version@</version>
+  <authors>@Authors@</authors>
+  <owners>@Authors@</owners>
+  <summary>@Summary@</summary>
+  <licenseUrl>@ProjectUrl@</licenseUrl>
+  <projectUrl>@ProjectUrl@</projectUrl>
+  <requireLicenseAcceptance>false</requireLicenseAcceptance>
+  <description>@Description@</description>
+  <releaseNotes>@ReleaseNotes@</releaseNotes>
+  <copyright>Not yet available</copyright>    
+  <tags>Xamarin iOS</tags>
+  <dependencies>
+@Dependencies@
+  </dependencies>
+  <references></references>
+  </metadata>
+  <files>
+    @Files@
+  </files>
+</package>
