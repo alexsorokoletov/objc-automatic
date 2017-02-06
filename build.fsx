@@ -125,21 +125,15 @@ let podByName pod =
     { name = pod; spec = spec; dependencies = []; custom=false; empty=false }
 
 
-let getPodSpecPath podName =
-    let result = execProcessWithResult (fun info ->  
-                                    info.FileName <- "pod"
-                                    info.Arguments <- "spec which " + podName) 
-    if (result.OK && result.Messages.Count > 0) then
-        result.Messages.[0]
-    else
-        tracefn "%A" result.Errors
-        ""
-
+let getPodSpecUrl podName =
+     "https://trunk.cocoapods.org/api/v1/pods/"+podName+"/specs/latest"
+      
 let downloadPodSpec (pod:string) =
     let podName = podNameWithoutSubSpec pod
-    let podUrl = getPodSpecPath podName
+    let podUrl = getPodSpecUrl podName
+    let podSpecJson = (new WebClient()).DownloadString(podUrl)
     let podSpecFile = podSpecFileName podName
-    CopyFile podSpecFile podUrl
+    File.WriteAllText(podSpecFile, podSpecJson);
     specForPod podName
 
 let private fileSafePodName (pod:string) =
