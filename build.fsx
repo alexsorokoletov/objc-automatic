@@ -33,7 +33,7 @@ let rootNamespace = "DreamTeam.Xamarin."
 let rootPackageName = "DT.Xamarin."
 let defaultPodVersion = ""
 let rn = Environment.NewLine
-let mutable isVerboseOutput = true
+let mutable isVerboseOutput = false
 let firstRegexMatch input (regex:string) = 
      Regex.Matches(input, regex)
         |> Seq.cast<Match>
@@ -180,7 +180,6 @@ let isFrameworkSpec (podSpec: Podspec.Root) =
     let vendoredFrameworkOptional = podSpec.JsonValue.TryGetProperty "vendored_frameworks"
     vendoredFrameworkOptional.IsSome 
 
-
 let generateLinkWith pod =
    let podName = pod.name
    let podSpec = pod.spec
@@ -270,8 +269,10 @@ let podDependenciesSimple (pod:Pod) =
                         |> Seq.toList
                 else
                     []
+
 let podDependencies (pod:Pod) =
     podDependenciesSimple pod |> Seq.map (fun k -> podByName k) |> Seq.toList   
+
 let getDependentHeadersLocations pod =
     let podName = pod.name
     let podSpec = pod.spec
@@ -766,6 +767,9 @@ Target "CleanBindings" ( fun()->
 );
 
 Target "Bind" ( fun()->
+    let verboseIsOn = hasBuildParam "VERBOSE"
+    isVerboseOutput <- verboseIsOn
+    tracefn "VERBOSE IS %A" isVerboseOutput
     let podName = getBuildParamOrDefault "POD" ""
     let isSingle = (getBuildParamOrDefault "SINGLE" "") = "YES"
     if String.IsNullOrEmpty(podName) then

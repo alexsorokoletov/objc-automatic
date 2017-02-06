@@ -24,6 +24,7 @@ Other options:
 - VERSION=version (override versions in all packages --- use with caution and for tests)
 - SINGLE=yes  - do not take into consideration pod references
 - VERSION-TYPE=-beta (adds suffix to version)
+- VERBOSE - to enable verbose output
 
 **Second stage - compile and package as nuget**
 To compile bindings and package then, run `sh FirebaseDatabase.build.sh` script in the `bindings` folder. This script is generated automatically and will show any errors in the bindings you need to correct.
@@ -36,10 +37,16 @@ Between 1st and 2nd stages you might need to check generated bindings and make s
 1. To build all bindings use `sh {pod name}.build.sh` script in `bindings` folder. 
 1. To compile single binding use `msbuild -p:Configuration=Release` to compile in Release in the specific binding folder (e.g. bindings/AWSCore)
 
+#### Additional options
+Clean bindings folder - `sh bind.sh CleanBindings`
+
+Clean pods folder - `sh bind.sh CleandPods`
+
 #### Things to fix and improve 
 1. detailed nuspec packages info and support for sub-version updates
 1. support weak_frameworks linker flag
 1. way to generate multiple pods at once
+1. support for iOS flavored dependencies (see ZendeskSDK pod)
 1. video showing how to use this 
 
 #### Contribution
@@ -50,7 +57,6 @@ Please see beginning of the build.fsx file for configuration options (verbose lo
 
 #### Pods to try
 AWSCognito
-Zendesk SDK
 Facebook Pop
 Firebase *
 GoogleFontsiOS
