@@ -11,11 +11,12 @@ Tool works as a two step process. First you generate the bindings automatically 
 To some extent this tool is similar to Xamarin's *Objective Sharpie*. Biggest difference is that this tool works with CocoaPod hierachy and generates set of dependent packages with Xamarin.iOS bindings mimicking hierarchy of CocoaPod
 
 ### How to use
-Prerequisites: 
+Prerequisites:
+- CocoaPods ([Getting started guide](https://guides.cocoapods.org/using/getting-started.html)). One might need `pod try yourpodname` at least once to force CocoaPods to update local specs repo. 
 - run `mozroots --import --sync` to import SSL root certificates.
 - NuGet 3. To update NuGet, run `sudo nuget update -Self` 
 - Xamarin iOS 
-- ObjectiveSharpie. [Download and manual](https://developer.xamarin.com/guides/cross-platform/macios/binding/objective-sharpie/).
+- ObjectiveSharpie. [Download information and manual](https://developer.xamarin.com/guides/cross-platform/macios/binding/objective-sharpie/).
 
 **First stage - generate bindings**
 
@@ -58,7 +59,4 @@ Please ping me if you want to collaborate, extend, fix or change the project. I 
 Please see beginning of the build.fsx file for configuration options (verbose logs, versions, etc)
 
 #### Pods to try
-AWSCognito
-Facebook Pop
-Firebase *
-GoogleFontsiOS
+AWSCognito,  Facebook Pop, Firebase *, GoogleFontsiOS
