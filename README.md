@@ -1,6 +1,7 @@
 ## Automatic way of binding Firebase pods for Xamarin iOS
 
 [![Join the chat at https://gitter.im/objc-automatic/Lobby](https://badges.gitter.im/objc-automatic/Lobby.svg)](https://gitter.im/objc-automatic/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Automatic conversion from cocoapod to nuget (saving the hierarchy).
 For example, the tool provides "automatic" way to bind all the pods for Firebase iOS for Xamarin.
 Project is in alpha state, expect all nuget packages of Firebase in the Nuget feed soon in alpha channel.
@@ -11,6 +12,15 @@ Tool works as a two step process. First you generate the bindings automatically 
 To some extent this tool is similar to Xamarin's *Objective Sharpie*. Biggest difference is that this tool works with CocoaPod hierachy and generates set of dependent packages with Xamarin.iOS bindings mimicking hierarchy of CocoaPod
 
 ### How to use
+Blog post explaining whole story: [Easy way to create Xamarin.iOS binding from CocoaPods
+](http://sorokoletov.com/2017/02/05/objc-automatic-easy-way-to-create-xamarin-bindings-ios/)
+
+[Video 1. objc-automatic generating lottie-ios binding for Xamarin.iOS] (https://www.useloom.com/share/e17d23d0ec3711e689c9c95ad27ead9a)
+
+[Video 2. objc-automatic demo - binding Firebase/Analytics to Xamarin](https://www.useloom.com/share/7679bec0ec3911e6b8fde34d395e0c71)
+
+[Video 3. objc-automatic overview and details how it works internally](https://www.useloom.com/share/f756df30ec3b11e6b8fde34d395e0c71)
+
 Prerequisites:
 - CocoaPods ([Getting started guide](https://guides.cocoapods.org/using/getting-started.html)). One might need `pod try yourpodname` at least once to force CocoaPods to update local specs repo. 
 - run `mozroots --import --sync` to import SSL root certificates.
