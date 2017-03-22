@@ -33,6 +33,7 @@ let rootNamespace = "DreamTeam.Xamarin."
 let rootPackageName = "DT.Xamarin."
 let defaultPodVersion = ""
 let rn = Environment.NewLine
+let fwRegex = @"(?<fwname>[^/.]+).framework"
 let mutable isVerboseOutput = false
 let firstRegexMatch input (regex:string) = 
      Regex.Matches(input, regex)
@@ -233,7 +234,7 @@ let podFrameworkLocation pod =
     if isFramework then
         let frameworks = alwaysArray podSpec.JsonValue "vendored_frameworks"
         let fwName = frameworks.[0]
-        let fwContainerDir = firstRegexMatch fwName @"(.+)/.+?\.framework"
+        let fwContainerDir = firstRegexMatch fwName fwRegex
         " -F " + Path.Combine(podsFolder, podFolder, "XCode", "Pods", truePodName, fwContainerDir)
     else 
         let guessFrameworkPath = Path.Combine(podsFolder, podFolder, "XCode", "Pods", truePodName) 
@@ -318,7 +319,8 @@ let generateCSharpBindingsForFramework pod podExpandedFolder =
     let bindingFolder = podBindingsFolder podName
     let frameworks = alwaysArray podSpec.JsonValue "vendored_frameworks"
     let fwName = frameworks.[0]  
-    let fwBinaryName = firstRegexMatch fwName @".+/(.+?)\.framework"
+    tracefn "FW NAME IS %A" fwName
+    let fwBinaryName = firstRegexMatch fwName fwRegex
     let iosSdkInSharpie = @"""iphoneos""" 
     let headersFolder = Path.Combine(podExpandedFolder, fwName, "Headers")
     let apiDefinitionFile = Path.Combine(bindingFolder, "ApiDefinitions.cs")
