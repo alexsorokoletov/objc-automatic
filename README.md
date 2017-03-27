@@ -1,11 +1,12 @@
-## Automatic way of binding Firebase pods for Xamarin iOS
+## Automatic way of binding Cocoapods for Xamarin iOS
 
 [![Join the chat at https://gitter.im/objc-automatic/Lobby](https://badges.gitter.im/objc-automatic/Lobby.svg)](https://gitter.im/objc-automatic/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Automatic conversion from cocoapod to nuget (saving the hierarchy).
 For example, the tool provides "automatic" way to bind all the pods for Firebase iOS for Xamarin.
-Project is in alpha state, expect all nuget packages of Firebase in the Nuget feed soon in alpha channel.
+Project is in beta state, expect all nuget packages of Firebase in the Nuget feed soon in alpha channel.
 
+This tool can help with Cocoapods written in Objective-C. At this time, `objc-automatic` doesn't support Swift-based pods.
 
 Tool works as a two step process. First you generate the bindings automatically (via bind.sh ) then you compile the bindings and package then as nuget.
 
@@ -67,6 +68,3 @@ Please ping me if you want to collaborate, extend, fix or change the project. I 
 
 #### Extra
 Please see beginning of the build.fsx file for configuration options (verbose logs, versions, etc)
-
-#### Pods to try
-AWSCognito,  Facebook Pop, Firebase *, GoogleFontsiOS
