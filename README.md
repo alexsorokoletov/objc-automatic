@@ -32,11 +32,11 @@ Prerequisites:
 - run `mozroots --import --sync` to import SSL root certificates.
 - NuGet 3. To update NuGet, run `sudo nuget update -Self` 
 - Xamarin iOS 
-- ObjectiveSharpie. [Download information and manual](https://developer.xamarin.com/guides/cross-platform/macios/binding/objective-sharpie/).
+- ObjectiveSharpie latest (3.4). [Download information and manual](https://developer.xamarin.com/guides/cross-platform/macios/binding/objective-sharpie/).
 
 **First stage - generate bindings**
 
-To generate bindings `sh bind.sh POD=FirebaseDatabase` or `sh bind.sh POD=Firebase/Messaging` or use other pod names (see here https://firebase.google.com/docs/ios/setup in _Available Pods_ section)
+To generate bindings `sh bind.sh POD=LMGaugeView` or `sh bind.sh POD=Firebase/Messaging` or use other pod names (see here https://firebase.google.com/docs/ios/setup in _Available Pods_ section)
 
 Other options:
 - POD=podName
@@ -46,7 +46,7 @@ Other options:
 - VERBOSE - to enable verbose output
 
 **Second stage - compile and package as nuget**
-To compile bindings and package then, run `sh FirebaseDatabase.build.sh` script in the `bindings` folder. This script is generated automatically and will show any errors in the bindings you need to correct.
+To compile bindings and package then, run `sh LMGaugeView.build.sh` script in the `bindings` folder. This script is generated automatically and will show any errors in the bindings you need to correct.
 
 After 2nd stage you should have a set of nuget packages ready for publishing in folder [bindings/packages-raw](https://github.com/alexsorokoletov/Xamarin.Firebase.iOS/tree/dev/automatic/bindings/packages-raw)
 

@@ -331,7 +331,7 @@ let generateCSharpBindingsForFramework pod podExpandedFolder =
         let podNamespace = rootNamespace + fileSafePodName podName
         let dependenciesHeaders = getDependentHeadersLocations pod
         let depHeadersOption = if dependenciesHeaders.Length > 0 then (" " + String.Join(" ", dependenciesHeaders )) else "" 
-        let sharpieArgs =  "-tlm-do-not-submit bind -output " + bindingFolder + " -sdk "+ iosSdkInSharpie + " -scope " + allHeaders + " " 
+        let sharpieArgs =  "bind -output " + bindingFolder + " -sdk "+ iosSdkInSharpie + " -scope " + allHeaders + " " 
                             + rootHeaderFile + " -n " + podNamespace + " -c -I" + headersFolder +  depHeadersOption + " -v"
         let result = execProcess (fun info ->  
                                     info.FileName <- "sharpie"
@@ -373,7 +373,7 @@ let generateCSharpBindingsForCustom pod =
     let dependenciesHeaders = [podPrivate; podPublic] |> Seq.toArray
     let depHeadersOption = if dependenciesHeaders.Length > 0 then (" " + String.Join(" ", dependenciesHeaders)) else "" 
     let podNamespace = rootNamespace + safePodName
-    let sharpieArgs =  "-tlm-do-not-submit bind -output " + bindingFolder + " -sdk "+ iosSdkInSharpie + " -scope " + headersFolder 
+    let sharpieArgs =  "bind -output " + bindingFolder + " -sdk "+ iosSdkInSharpie + " -scope " + headersFolder 
                              + " " + mainHeader 
                              + " -n " + podNamespace + " -c " +  depHeadersOption + " -v"
     let result = execProcess (fun info ->  
