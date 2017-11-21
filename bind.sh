@@ -12,4 +12,4 @@ exit $exit_code
 fi
 
 [ ! -e build.fsx ] && mono .paket/paket.exe update
-mono --runtime=v4.0 packages/Auto/FAKE/tools/FAKE.exe ./build.fsx $@
+mono --debug --runtime=v4.0 packages/Auto/FAKE/tools/FAKE.exe ./build.fsx $@
