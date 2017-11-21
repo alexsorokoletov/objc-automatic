@@ -44,6 +44,8 @@ Other options:
 - SINGLE=yes  - do not take into consideration pod references
 - VERSION-TYPE=-beta (adds suffix to version)
 - VERBOSE - to enable verbose output
+- POD_VERSION - to bind specific version of pod (by default it's "latest")
+- ROOT_HEADER_FILE - some cocoapods include Frameworks which do not follow common guidelines for the root header file name (should be same as framework name). If so, you can override it using this option. For example, `POD=YandexSpeechKit ROOT_HEADER_FILE=SpeechKit.h`
 
 **Second stage - compile and package as nuget**
 To compile bindings and package then, run `sh LMGaugeView.build.sh` script in the `bindings` folder. This script is generated automatically and will show any errors in the bindings you need to correct.

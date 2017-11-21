@@ -35,6 +35,9 @@ let defaultPodVersion = ""
 let rn = Environment.NewLine
 let fwRegex = @"(?<fwname>[^/.]+).framework"
 let mutable isVerboseOutput = false
+let mutable requestedPodVersion = "latest"
+let mutable rootHeaderFileOption = ""
+
 let firstRegexMatch input (regex:string) = 
      Regex.Matches(input, regex)
         |> Seq.cast<Match>
@@ -73,8 +76,6 @@ let sbLine (line:String) (sb:System.Text.StringBuilder) =
     sb.AppendLine(line)
 let traceV fmt = 
     if isVerboseOutput then tracefn else ignore
-
-// type PodDependencyNode = {Name:string; Children:List<PodDependencyNode>}
 
 type Podspec = JsonProvider<"./podspec.sample.json">
 
@@ -127,7 +128,7 @@ let podByName pod =
 
 
 let getPodSpecUrl podName =
-     "https://trunk.cocoapods.org/api/v1/pods/"+podName+"/specs/latest"
+     "https://trunk.cocoapods.org/api/v1/pods/"+podName+"/specs/"+requestedPodVersion
       
 let downloadPodSpec (pod:string) =
     let podName = podNameWithoutSubSpec pod
@@ -326,7 +327,7 @@ let generateCSharpBindingsForFramework pod podExpandedFolder =
     let apiDefinitionFile = Path.Combine(bindingFolder, "ApiDefinitions.cs")
     let structsAndEnumsFile = Path.Combine(bindingFolder, "StructsAndEnums.cs")
     if Directory.Exists(headersFolder) then
-        let rootHeaderFile = Path.Combine(headersFolder, fwBinaryName + ".h")
+        let rootHeaderFile = if rootHeaderFileOption <> "" then Path.Combine(headersFolder, rootHeaderFileOption) else Path.Combine(headersFolder, fwBinaryName + ".h")
         let allHeaders = Path.Combine(headersFolder, "*.h")
         let podNamespace = rootNamespace + fileSafePodName podName
         let dependenciesHeaders = getDependentHeadersLocations pod
@@ -356,7 +357,7 @@ let generateCSharpBindingsForCustom pod =
     let safePodName = fileSafePodName podName
     let truePodName = podNameWithoutSubSpec podName
     let podXCodeDir = Path.Combine(podsFolder, safePodName, "XCode")
-    let buildOutDir = Path.Combine(podXCodeDir, "build-out")
+    let buildOutDir = Path.Combine(podXCodeDir,"build-out", "Debug-iphoneos", truePodName)
     let iosSdkInSharpie = @"""iphoneos""" 
     let headersFolder = buildOutDir
     let possibleUmbrellaHeader = Path.Combine(headersFolder, truePodName + ".h")
@@ -573,13 +574,13 @@ let rec downloadPodsRecursive (podName:string) =
     
 let compileNonFrameworkProjectForArchitecure podName sim podXCodeDir buildOutDir =
     //see https://gist.github.com/madhikarma/09e553c508f870639570
+    let effectivePlatform = if sim then "iphonesimulator" else "iphoneos"
     let architectureArgs = if sim then @" -arch i386 -arch x86_64 -sdk ""iphonesimulator""" else @" -sdk ""iphoneos"""
     let xcodeArgs = @"clean build -workspace EmptyProject.xcworkspace -scheme EmptyProject"
                     + architectureArgs
                     + @" CODE_SIGN_IDENTITY="""" CODE_SIGNING_REQUIRED=NO"
                     + " ONLY_ACTIVE_ARCH=NO"
-                    + " SYMROOT=" + buildOutDir 
-                    + " CONFIGURATION_BUILD_DIR=" + buildOutDir
+                    + " BUILD_DIR=" + buildOutDir 
     let result = execProcess (fun info ->  
        info.FileName <- "xcodebuild"
        info.WorkingDirectory <- podXCodeDir
@@ -588,7 +589,8 @@ let compileNonFrameworkProjectForArchitecure podName sim podXCodeDir buildOutDir
     let architectureExt = if sim then ".sim.a" else ".device.a"
     let binaryFile = "lib" + podNameWithoutSubSpec podName + ".a"
     let binaryFinalFile = "lib" + podNameWithoutSubSpec podName + architectureExt
-    let binaryPath = Path.Combine(buildOutDir, binaryFile)
+    let configSubdir = "Debug-" + effectivePlatform
+    let binaryPath = Path.Combine(buildOutDir, configSubdir,(podNameWithoutSubSpec podName), binaryFile)
     if File.Exists binaryPath then
         let binaryFinalPath  = Path.Combine(buildOutDir, binaryFinalFile)
         CopyFile binaryFinalPath binaryPath
@@ -765,7 +767,9 @@ Target "CleanBindings" ( fun()->
 Target "Bind" ( fun()->
     let verboseIsOn = hasBuildParam "VERBOSE"
     isVerboseOutput <- verboseIsOn
+    rootHeaderFileOption <- getBuildParamOrDefault "ROOT_HEADER_FILE" ""
     tracefn "VERBOSE IS %A" isVerboseOutput
+    requestedPodVersion <- getBuildParamOrDefault "POD_VERSION" "latest"
     let podName = getBuildParamOrDefault "POD" ""
     let isSingle = (getBuildParamOrDefault "SINGLE" "") = "YES"
     if String.IsNullOrEmpty(podName) then
