@@ -1,6 +1,4 @@
-## Automatic way of binding Cocoapods for Xamarin iOS
-
-[![Join the chat at https://gitter.im/objc-automatic/Lobby](https://badges.gitter.im/objc-automatic/Lobby.svg)](https://gitter.im/objc-automatic/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+## [Not supported anymore] Automatic way of binding Cocoapods for Xamarin iOS
 
 Automatic conversion from cocoapod to nuget (saving the hierarchy).
 For example, the tool provides "automatic" way to bind all the pods for Firebase iOS for Xamarin.
